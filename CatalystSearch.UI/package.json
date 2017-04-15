@@ -1,0 +1,22 @@
+{
+  "name": "CatalystSearch.UI",
+  "version": "1.0.0",
+  "description": "Catalyst Search application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aviatorhughes/CatalystSearch"
+  },
+  "dependencies": {
+   
+  },
+  "devDependencies": {
+    "typescript": "^2.2.2"
+  }
+}
