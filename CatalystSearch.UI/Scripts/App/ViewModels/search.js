@@ -1,0 +1,106 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var CatalystSearch;
+(function (CatalystSearch) {
+    var ViewModels;
+    (function (ViewModels) {
+        var Search = (function (_super) {
+            __extends(Search, _super);
+            function Search() {
+                var _this = _super.call(this) || this;
+                _this.searchText = ko.observable('');
+                _this.searchStarted = ko.observable(false);
+                _this.searchResults = ko.observableArray([]);
+                _this.isSearchInputValid = ko.observable(true);
+                _this.invalidSearchInputErrorMessage = ko.observable('Invalid search input. Please use alpha-numeric only.');
+                _this.isInputMinLengthValid = ko.observable(true);
+                _this.minLengthSearchInputErrorMessage = ko.observable('Please input at least 2 characters or more.');
+                _this.dataTableOptions = ko.observable({
+                    paging: true,
+                    "order": [[0, "asc"]],
+                    "dom": '<"pull-left"f><"pull-right"l>tip',
+                    "aoColumnDefs": [{ 'bSortable': false, 'aTargets': [4] }],
+                    "oLanguage": {
+                        "sSearch": "Filter Results: ",
+                        "sEmptyTable": "No results found."
+                    },
+                });
+                return _this;
+            }
+            //private methods
+            Search.prototype.getSearchResults = function () {
+                var _this = this;
+                this.validateSearchInput(this.searchText());
+                //If input is valid 
+                if (this.isInputMinLengthValid() && this.isSearchInputValid()) {
+                    $.blockUI();
+                    this.searchStarted(true);
+                    this.searchResults.removeAll();
+                    $.ajax({
+                        url: "/Home/Search",
+                        type: "POST",
+                        cache: false,
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({ searchText: this.searchText() }),
+                        success: function (result) {
+                            console.log(result);
+                            $.map(result, function (data, ix) {
+                                var jsonData = JSON.parse(data);
+                                var tempArray = [];
+                                jsonData.forEach(function (item) {
+                                    var temp = ko.mapping.fromJS(item, {}, new CatalystSearch.Models.Search());
+                                    tempArray.push(temp);
+                                });
+                                _this.searchResults.pushAll(tempArray);
+                            });
+                        },
+                        error: function (response) {
+                            _this.showAjaxCallLoadErrorMessage(response);
+                        },
+                        complete: function (data) {
+                            setTimeout(function () {
+                                $.unblockUI();
+                            }, 200);
+                        }
+                    });
+                }
+            };
+            //validate search input
+            Search.prototype.validateSearchInput = function (searchInput) {
+                //clear out the error messages before re-checking
+                this.isInputMinLengthValid(true);
+                this.isSearchInputValid(true);
+                //check for minimum length 
+                if (searchInput.trim().length < 2) {
+                    this.isInputMinLengthValid(false);
+                }
+                //check for special characters
+                if (!(/^[A-Z0-9]+$/i.test(searchInput))) {
+                    this.isSearchInputValid(false);
+                }
+            };
+            return Search;
+        }(ViewModels.BaseViewModel));
+        ViewModels.Search = Search;
+        var SearchConfig = (function () {
+            function SearchConfig() {
+            }
+            SearchConfig.prototype.init = function () {
+                this.viewModel = new Search();
+                ko.applyBindings(this.viewModel);
+            };
+            return SearchConfig;
+        }());
+        ViewModels.SearchConfig = SearchConfig;
+    })(ViewModels = CatalystSearch.ViewModels || (CatalystSearch.ViewModels = {}));
+})(CatalystSearch || (CatalystSearch = {}));
+//# sourceMappingURL=search.js.map

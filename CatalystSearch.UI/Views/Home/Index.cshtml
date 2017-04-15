@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<h2>
+    Search
+</h2>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <ul class="nav nav-condensed nav-pills">
+            <li role="presentation"><a class="btn-xs btn-primary" href="@Url.Action("AddUser","Home")"><i class="glyphicon glyphicon-plus"></i> Add New User</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="form-horizontal">
+    <div class="form-group">
+
+        <div class="col-md-8" data-bind="css: { 'has-error': !isSearchInputValid() }">
+            <input type="text" id="name" class="form-control" placeholder="Enter the partial name (at least 2 characters) to search for..." data-bind="textInput: $root.searchText" />
+            <div class="text-danger" style="display:none;" data-bind="text: invalidSearchInputErrorMessage, visible: !isSearchInputValid()"></div>
+            <div class="text-danger" style="display:none;" data-bind="text: minLengthSearchInputErrorMessage, visible: !isInputMinLengthValid()"></div>
+        </div>
+
+        <div class="col-md-3">
+            <button type="button" id="btnSearch" class="btn btn-primary" data-bind="click: getSearchResults"><i class="glyphicon glyphicon-search"></i> Search</button>
+        </div>
+    </div>
+</div>
+
+<br /><br />
+
+<!-- Search Results here -->
+<div style="display: none;" data-bind="visible: searchStarted">
+    <div class="input-sm dataTableContainer" id="resultsContainer">
+        <table id="searchResultsTable" class="table table-bordered table-striped table-condensed dataTableResultsTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Age</th>
+                    <th>Interests</th>
+                    <th>Picture</th>
+                </tr>
+            </thead>
+            <tbody data-bind="dataTablesForEach: { data: searchResults, dataTableOptions: dataTableOptions }">
+                <tr>
+                    <td data-bind="text: name"></td>
+                    <td data-bind="text: address"></td>
+                    <td data-bind="text: age"></td>
+                    <td data-bind="text: interests"></td>
+                    <td data-bind="text: base64Picture"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //Call the Knockout viewmodel's init() to bind the client side view model to this view
+    var searchConfig = new CatalystSearch.ViewModels.SearchConfig();
+    searchConfig.init();
+</script>
