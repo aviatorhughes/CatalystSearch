@@ -36,13 +36,13 @@ namespace CatalystSearch.UI.Controllers
         }
 
         [HttpGet]
-        public ActionResult AddNewUser()
+        public ActionResult AddPerson()
         {
             return View();
         }
 
         [HttpPost]
-        public void AddNewUser(PersonResultEntity person)
+        public void AddPerson(PersonResultEntity person)
         {
             //validate if any
 
