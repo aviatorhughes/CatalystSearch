@@ -1,4 +1,5 @@
-﻿using CatalystSearch.Service.Interfaces;
+﻿using CatalystSearch.Service.Entities;
+using CatalystSearch.Service.Interfaces;
 using CatalystSearch.UI.Extensions;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,28 @@ namespace CatalystSearch.UI.Controllers
             var jsonResult = this.SearchService.GetSearchResults(searchText).ToJson();
 
             return Json(jsonResult.Objectify()); 
+        }
+
+        [HttpGet]
+        public ActionResult AddNewUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public void AddNewUser(PersonResultEntity person)
+        {
+            //validate if any
+
+            try
+            {
+                //save
+                
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

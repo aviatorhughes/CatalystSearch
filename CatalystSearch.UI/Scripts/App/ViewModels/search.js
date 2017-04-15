@@ -31,7 +31,7 @@ var CatalystSearch;
                     "oLanguage": {
                         "sSearch": "Filter Results: ",
                         "sEmptyTable": "No results found."
-                    }
+                    },
                 });
                 return _this;
             }
@@ -103,3 +103,4 @@ var CatalystSearch;
         ViewModels.SearchConfig = SearchConfig;
     })(ViewModels = CatalystSearch.ViewModels || (CatalystSearch.ViewModels = {}));
 })(CatalystSearch || (CatalystSearch = {}));
+//# sourceMappingURL=search.js.map

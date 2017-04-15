@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalystSearch.Service", "C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalystSearch.Data", "CatalystSearch.Data\CatalystSearch.Data.csproj", "{B143F70C-CD0A-43B2-8AC8-3737F1E37661}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalystSearch.Test", "CatalystSearch.Test\CatalystSearch.Test.csproj", "{BFF55ACE-0143-4A4A-8D47-B208DBB2713C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{B143F70C-CD0A-43B2-8AC8-3737F1E37661}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B143F70C-CD0A-43B2-8AC8-3737F1E37661}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B143F70C-CD0A-43B2-8AC8-3737F1E37661}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFF55ACE-0143-4A4A-8D47-B208DBB2713C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFF55ACE-0143-4A4A-8D47-B208DBB2713C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFF55ACE-0143-4A4A-8D47-B208DBB2713C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFF55ACE-0143-4A4A-8D47-B208DBB2713C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -18,3 +18,4 @@ var CatalystSearch;
         Models.Search = Search;
     })(Models = CatalystSearch.Models || (CatalystSearch.Models = {}));
 })(CatalystSearch || (CatalystSearch = {}));
+//# sourceMappingURL=search.js.map
