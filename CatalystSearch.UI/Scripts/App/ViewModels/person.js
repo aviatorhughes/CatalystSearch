@@ -66,16 +66,17 @@ var CatalystSearch;
                     $.ajax({
                         url: "/Home/AddPerson",
                         type: "POST",
-                        dataType: 'json',
+                        //dataType: 'json',
                         data: JSON.stringify({ person: ko.toJS(this.person()) }),
                         contentType: "application/json; charset=utf-8",
                         success: function (data, status, xhr) {
-                            console.log(data);
                             _this.showSuccessfulSaveMessage();
                             //take the user back to search page
+                            setTimeout(function () {
+                                location.href = '/Home/Index';
+                            }, 500);
                         },
                         error: function (response) {
-                            console.log(response);
                             _this.showAjaxCallSaveErrorMessage(response);
                         },
                         complete: function (data) {

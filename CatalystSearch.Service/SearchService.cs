@@ -42,7 +42,7 @@ namespace CatalystSearch.Service
                                   Zipcode = person.Zipcode,
                                   Id = person.Id,
                                   Interests = person.Interests,
-                                  Picture = person.Picture
+                                  Base64Picture = person.Base64Picture
                               };
 
                 return results.ToList();

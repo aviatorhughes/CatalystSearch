@@ -57,17 +57,17 @@
                 $.ajax({
                     url: "/Home/AddPerson",
                     type: "POST",
-                    dataType: 'json',
+                    //dataType: 'json',
                     data: JSON.stringify({ person: ko.toJS(this.person()) }),
                     contentType: "application/json; charset=utf-8",
                     success: (data, status, xhr) => {
-                        console.log(data);
                         this.showSuccessfulSaveMessage();
                         //take the user back to search page
-                        
+                        setTimeout(() => {
+                            location.href = '/Home/Index';
+                        }, 500);
                     },
                     error: (response) => {
-                        console.log(response);
                         this.showAjaxCallSaveErrorMessage(response);
                     },
                     complete: (data) => {

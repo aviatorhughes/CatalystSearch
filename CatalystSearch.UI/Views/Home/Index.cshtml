@@ -50,7 +50,9 @@
                     <td data-bind="text: address"></td>
                     <td data-bind="text: age"></td>
                     <td data-bind="text: interests"></td>
-                    <td data-bind="text: base64Picture"></td>
+                    <td>
+                        <img data-bind="attr:{src: base64Picture}" />
+                    </td>
                 </tr>
             </tbody>
         </table>
