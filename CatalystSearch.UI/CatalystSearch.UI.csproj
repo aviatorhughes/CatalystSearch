@@ -352,6 +352,9 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\images\Jcrop.gif" />
+    <Content Include="Content\jquery.Jcrop.css" />
+    <Content Include="Content\jquery.Jcrop.min.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />
@@ -366,14 +369,19 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Scripts\App\KOCustomBindings\cropImage.js" />
     <Content Include="Scripts\App\KOCustomBindings\dataTablesForEach.js" />
+    <Content Include="Scripts\App\KOCustomBindings\knockout-file-bind.js" />
     <Content Include="Scripts\App\KOCustomBindings\select2.js" />
     <Content Include="Scripts\App\KOExtensions\trimmed.js" />
-    <Content Include="Scripts\App\Models\search.js">
-      <DependentUpon>search.ts</DependentUpon>
+    <Content Include="Scripts\App\Models\person.js">
+      <DependentUpon>person.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\App\ViewModels\baseViewModel.js">
       <DependentUpon>baseViewModel.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\App\ViewModels\person.js">
+      <DependentUpon>person.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\App\ViewModels\search.js">
       <DependentUpon>search.ts</DependentUpon>
@@ -391,10 +399,13 @@
     <Content Include="Scripts\App\ViewModels\baseViewModel.js.map">
       <DependentUpon>baseViewModel.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\App\Models\search.js.map">
-      <DependentUpon>search.ts</DependentUpon>
-    </Content>
     <Content Include="package.json" />
+    <Content Include="Scripts\App\Models\person.js.map">
+      <DependentUpon>person.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\App\ViewModels\person.js.map">
+      <DependentUpon>person.ts</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
@@ -478,6 +489,8 @@
     <Content Include="Scripts\jquery-3.1.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.blockUI.js" />
+    <Content Include="Scripts\jquery.Jcrop.js" />
+    <Content Include="Scripts\jquery.Jcrop.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -517,8 +530,9 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Scripts\App\Models\search.ts" />
+    <TypeScriptCompile Include="Scripts\App\Models\person.ts" />
     <TypeScriptCompile Include="Scripts\App\ViewModels\baseViewModel.ts" />
+    <TypeScriptCompile Include="Scripts\App\ViewModels\person.ts" />
     <TypeScriptCompile Include="Scripts\App\ViewModels\search.ts" />
     <TypeScriptCompile Include="Scripts\typings\bootstrap\bootstrap.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\customTypings.d.ts" />

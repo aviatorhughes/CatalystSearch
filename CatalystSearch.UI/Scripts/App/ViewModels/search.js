@@ -52,12 +52,11 @@ var CatalystSearch;
                         contentType: "application/json; charset=utf-8",
                         data: JSON.stringify({ searchText: this.searchText() }),
                         success: function (result) {
-                            console.log(result);
                             $.map(result, function (data, ix) {
                                 var jsonData = JSON.parse(data);
                                 var tempArray = [];
                                 jsonData.forEach(function (item) {
-                                    var temp = ko.mapping.fromJS(item, {}, new CatalystSearch.Models.Search());
+                                    var temp = ko.mapping.fromJS(item, {}, new CatalystSearch.Models.Person());
                                     tempArray.push(temp);
                                 });
                                 _this.searchResults.pushAll(tempArray);

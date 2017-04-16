@@ -37,5 +37,8 @@ namespace CatalystSearch.Data.Models
         public string Interests { get; set; }
 
         public byte[] Picture { get; set; }
+
+        [Column(TypeName = "varchar(MAX)")]
+        public string Base64Picture { get; set; }
     }
 }

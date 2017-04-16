@@ -10,5 +10,6 @@ namespace CatalystSearch.Data.Interfaces
     public interface ISearchRepository
     {
         IEnumerable<Person> GetPeople(string name);
+        void SavePerson(Person person);
     }
 }

@@ -7,6 +7,9 @@ var CatalystSearch;
                 this.loadErrorMessage = ko.observable("An error occurred while trying to fetch the data. Please try again and if the problem persists, contact support team.");
                 this.saveErrorMessage = ko.observable("An error occurred while trying to save the data. Please try again and if the problem persists, contact support team.");
             }
+            BaseViewModel.prototype.showSuccessfulSaveMessage = function () {
+                toastr.success('Changes saved successfully');
+            };
             BaseViewModel.prototype.showAjaxCallLoadErrorMessage = function (errorResponse, message) {
                 if (errorResponse) {
                     console.log(errorResponse);

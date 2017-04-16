@@ -15,22 +15,26 @@ namespace CatalystSearch.UI
                         "~/Scripts/knockout.mapping-latest.js",
                         "~/Scripts/toastr.js",
                         "~/Scripts/jquery.blockUI.js",
+                        "~/Scripts/jquery.Jcrop.min.js",
                         "~/Scripts/DataTables/jquery.dataTables.min.js"
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/custom-scripts").Include(
             //KO CustomBindings
             "~/Scripts/App/KOCustomBindings/dataTablesForEach.js",
+            "~/Scripts/App/KOCustomBindings/knockout-file-bind.js",
+            "~/Scripts/App/KOCustomBindings/cropImage.js",
 
             //KO Extensions
             "~/Scripts/App/KOExtensions/trimmed.js",
 
             //Models
-            "~/Scripts/App/Models/search.js",
+            "~/Scripts/App/Models/person.js",
 
             //View Models
             "~/Scripts/App/ViewModels/baseViewModel.js",
-            "~/Scripts/App/ViewModels/search.js"
+            "~/Scripts/App/ViewModels/search.js",
+            "~/Scripts/App/ViewModels/person.js"
             ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
@@ -51,6 +55,7 @@ namespace CatalystSearch.UI
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/DataTables/css/jquery.dataTables.min.css",
+                      "~/Content/jquery.Jcrop.min.css",
                       "~/Content/toastr.min.css",
                       "~/Content/site.css"));
         }

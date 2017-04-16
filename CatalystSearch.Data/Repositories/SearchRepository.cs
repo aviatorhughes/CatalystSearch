@@ -33,6 +33,13 @@ namespace CatalystSearch.Data.Repositories
             return results; 
         }
 
+        public void SavePerson(Person person)
+        {
+            person.SetCommonEntityFields();
+
+            SearchContext.People.Add(person);
+            SearchContext.SaveChanges();
+        }
         #endregion
     }
 }

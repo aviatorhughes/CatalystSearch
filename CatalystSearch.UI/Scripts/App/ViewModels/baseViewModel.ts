@@ -7,6 +7,10 @@
 
         }
 
+        protected showSuccessfulSaveMessage(): void {
+            toastr.success('Changes saved successfully');
+        }
+
         protected showAjaxCallLoadErrorMessage(errorResponse: any, message?: string): void {
             if (errorResponse) {
                 console.log(errorResponse);

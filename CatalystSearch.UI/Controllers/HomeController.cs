@@ -49,7 +49,7 @@ namespace CatalystSearch.UI.Controllers
             try
             {
                 //save
-                
+                this.SearchService.SavePerson(person);
             }
             catch(Exception ex)
             {

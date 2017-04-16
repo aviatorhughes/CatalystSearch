@@ -10,5 +10,6 @@ namespace CatalystSearch.Service.Interfaces
     public interface ISearchService
     {
         IEnumerable<PersonResultEntity> GetSearchResults(string searchText);
+        void SavePerson(PersonResultEntity person);
     }
 }

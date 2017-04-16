@@ -6,7 +6,7 @@ using System.Web;
 
 namespace CatalystSearch.Data.Models
 {
-    public class SearchInitializer : DropCreateDatabaseAlways<SearchContext>
+    public class SearchInitializer : DropCreateDatabaseIfModelChanges<SearchContext>
     {
         protected override void Seed(SearchContext context)
         {

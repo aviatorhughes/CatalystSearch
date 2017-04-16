@@ -69,15 +69,13 @@ namespace CatalystSearch.Service.Entities
             }
         }
 
-        public string Base64Picture
+        public string Base64Picture { get; set; }
+
+        public PersonResultEntity()
         {
-            get
+            if (this.Picture != null && this.Picture.Length > 0)
             {
-                if(Picture != null && Picture.Length > 0)
-                {
-                    return Convert.ToBase64String(Picture);
-                }
-                return "";
+                this.Base64Picture = Convert.ToBase64String(Picture);
             }
         }
     }

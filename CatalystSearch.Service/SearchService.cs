@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using CatalystSearch.Service.Entities;
 using CatalystSearch.Data.Repositories;
 using CatalystSearch.Data.Interfaces;
+using CatalystSearch.Data.Models;
+using AutoMapper;
 
 namespace CatalystSearch.Service
 {
@@ -44,6 +46,30 @@ namespace CatalystSearch.Service
                               };
 
                 return results.ToList();
+            }
+            catch(Exception ex)
+            {
+                throw; 
+            }
+        }
+
+        public void SavePerson(PersonResultEntity personEntity)
+        {
+            if(personEntity == null)
+            {
+                throw new ArgumentNullException("personEntity");
+            }
+
+            try
+            {
+                Person person = new Person();
+                var config = new AutoMapper.Configuration.MapperConfigurationExpression();
+                config.CreateMap<PersonResultEntity, Person>();
+                Mapper.Initialize(config);
+
+                Mapper.Map<PersonResultEntity, Person>(personEntity, person);
+
+                this.SearchRepository.SavePerson(person);
             }
             catch(Exception ex)
             {

@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions.cs" />
     <Compile Include="Interfaces\ISearchRepository.cs" />
     <Compile Include="Models\BaseSearchEntity.cs" />
     <Compile Include="Models\ISearchEntity.cs" />

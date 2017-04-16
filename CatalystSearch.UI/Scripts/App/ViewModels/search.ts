@@ -2,7 +2,7 @@
     export class Search extends BaseViewModel {
         searchText: KnockoutObservable<string> = ko.observable('');
         searchStarted: KnockoutObservable<boolean> = ko.observable(false);
-        searchResults: KnockoutObservableArray<CatalystSearch.Models.Search> = ko.observableArray([]);
+        searchResults: KnockoutObservableArray<CatalystSearch.Models.Person> = ko.observableArray([]);
 
         isSearchInputValid: KnockoutObservable<boolean> = ko.observable(true);
         invalidSearchInputErrorMessage: KnockoutObservable<string> = ko.observable('Invalid search input. Please use alpha-numeric only.');
@@ -43,13 +43,12 @@
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify({ searchText: this.searchText() }),
                     success: (result) => {
-                        console.log(result);
                         $.map(result, (data, ix) => {
                             var jsonData = JSON.parse(data);
                             var tempArray = [];
 
                             jsonData.forEach((item) => {
-                                var temp = ko.mapping.fromJS(item, {}, new CatalystSearch.Models.Search());
+                                var temp = ko.mapping.fromJS(item, {}, new CatalystSearch.Models.Person());
                                 tempArray.push(temp);
                             });
 

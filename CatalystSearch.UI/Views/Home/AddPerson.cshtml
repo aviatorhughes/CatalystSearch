@@ -3,67 +3,90 @@
     ViewBag.Title = "Add Person";
 }
 
-<h2>Add Person</h2>
-<hr />
+<h3> Add Person</h3>
 
-<form class="form-horizontal">
+
+<div class="form-horizontal">
     <div class="form-group">
         <label for="firstName" class="col-sm-2 control-label">First Name</label>
-        <div class="col-sm-6">
-            <input type="text" class="form-control" id="firstName" placeholder="First Name">
+        <div class="col-sm-6" data-bind="css: { 'has-error': !isFirstNameValid() }">
+            <input type="text" class="form-control" id="firstName" placeholder="First Name" data-bind="textInput: person().firstName">
+            <div class="text-danger" style="display:none;" data-bind="text: errMsgFirstName, visible: !isFirstNameValid()"></div>
         </div>
     </div>
     <div class="form-group">
-        <label for="lastName" class="col-sm-2 control-label">Password</label>
-        <div class="col-sm-6">
-            <input type="text" class="form-control" id="lastName" placeholder="Last Name">
+        <label for="lastName" class="col-sm-2 control-label">Last Name</label>
+        <div class="col-sm-6" data-bind="css: { 'has-error': !isLastNameValid() }">
+            <input type="text" class="form-control" id="lastName" placeholder="Last Name" data-bind="textInput: person().lastName">
+            <div class="text-danger" style="display:none;" data-bind="text: errMsgLastName, visible: !isLastNameValid()"></div>
         </div>
     </div>
     <div class="form-group">
         <label for="age" class="col-sm-2 control-label">Age</label>
-        <div class="col-sm-6">
-            <input type="number" class="form-control" id="age" placeholder="age">
+        <div class="col-sm-6" data-bind="css: { 'has-error': !isAgeValid() }">
+            <input type="number" class="form-control" id="age" min="0" max="115" placeholder="age" data-bind="textInput: person().age">
+            <div class="text-danger" style="display:none;" data-bind="text: errMsgAge, visible: !isAgeValid()"></div>
         </div>
     </div>
     <div class="form-group">
         <label for="interests" class="col-sm-2 control-label">Interests</label>
         <div class="col-sm-6">
-            <input type="text" class="form-control" id="interests" placeholder="Interests">
+            <input type="text" class="form-control" id="interests" placeholder="Interests" data-bind="textInput: person().interests">
         </div>
     </div>
     <div class="form-group">
         <label for="street" class="col-sm-2 control-label">Street</label>
-        <div class="col-sm-6">
-            <input type="text" class="form-control" id="street" placeholder="Street Address">
+        <div class="col-sm-6" data-bind="css: { 'has-error': !isStreetValid() }">
+            <input type="text" class="form-control" id="street" placeholder="Street Address" data-bind="textInput: person().street">
+            <div class="text-danger" style="display:none;" data-bind="text: errMsgStreet, visible: !isStreetValid()"></div>
         </div>
     </div>
     <div class="form-group">
         <label for="city" class="col-sm-2 control-label">City</label>
-        <div class="col-sm-6">
-            <input type="text" class="form-control" id="city" placeholder="City">
+        <div class="col-sm-6" data-bind="css: { 'has-error': !isCityValid() }">
+            <input type="text" class="form-control" id="city" placeholder="City" data-bind="textInput: person().city">
+            <div class="text-danger" style="display:none;" data-bind="text: errMsgCity, visible: !isCityValid()"></div>
         </div>
     </div>
     <div class="form-group">
         <label for="state" class="col-sm-2 control-label">State</label>
-        <div class="col-sm-6">
-            <input type="text" class="form-control" id="state" placeholder="State">
+        <div class="col-sm-6" data-bind="css: { 'has-error': !isStateValid() || !isStateLengthValid() }">
+            <input type="text" class="form-control" id="state" placeholder="2 character state code" data-bind="textInput: person().stateCd">
+            <div class="text-danger" style="display:none;" data-bind="text: errMsgState, visible: !isStateValid()"></div>
+            <div class="text-danger" style="display:none;" data-bind="text: errMsgStateLength, visible: !isStateLengthValid()"></div>
         </div>
     </div>
     <div class="form-group">
         <label for="zipcode" class="col-sm-2 control-label">Zipcode</label>
-        <div class="col-sm-6">
-            <input type="text" class="form-control" id="zipcode" placeholder="Zipcode">
+        <div class="col-sm-6" data-bind="css: { 'has-error': !isZipcodeValid() }">
+            <input type="text" class="form-control" id="zipcode" placeholder="Zipcode" data-bind="textInput: person().zipcode">
+            <div class="text-danger" style="display:none;" data-bind="text: errMsgZipcode, visible: !isZipcodeValid()"></div>
         </div>
     </div>
-
     <div class="form-group">
-        <div class="col-sm-8">
-            <div class="button-group">
-                <button type="button" class="btn btn-default col-sm-2">Cancel</button>
-            </div>
-            <div class="button-group">
-                <button type="submit" class="btn btn-primary col-sm-2">Save</button>
-            </div>
+        <label for="photo" class="col-sm-2 control-label">Photo</label>
+        <div class="col-sm-6" data-bind="css: { 'has-error': !isPhotoValid() || !isPhotoBig() }">
+            <input type="file" class="form-control" id="photo" placeholder="photo" data-bind="file: {data: person().base64Picture, allowed: 'image/jpeg'}">
+            <span class="text-info small"><i>Please upload only jpeg pictures that are less than 450px x 450px.</i></span>
+            <div class="text-danger" style="display:none;" data-bind="text: errMsgPhoto, visible: !isPhotoValid()"></div>
+            <div class="text-danger" style="display:none;" data-bind="text: errMsgPhotoBig, visible: !isPhotoBig()"></div>
         </div>
     </div>
-</form>
+    <!-- ko.if: person().base64Picture().length > 0 -->
+    <!--cropping image, if we have time-->
+    <!--<img data-bind="cropImage: person().base64Picture()" id="selectedPicture" />-->
+    <!-- /ko -->
+</div>
+
+
+<div class="col-sm-8">
+    <div class="pull-right">
+        <a class="btn btn-default" href="@Url.Action("Index", "Home")">Cancel</a>
+        <button type="button" class="btn btn-primary" data-bind="click: savePerson">Save</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var personConfig = new CatalystSearch.ViewModels.PersonConfig();
+    personConfig.init();
+</script>
