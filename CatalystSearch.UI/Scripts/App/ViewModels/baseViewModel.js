@@ -42,3 +42,4 @@ var CatalystSearch;
         ViewModels.BaseViewModel = BaseViewModel;
     })(ViewModels = CatalystSearch.ViewModels || (CatalystSearch.ViewModels = {}));
 })(CatalystSearch || (CatalystSearch = {}));
+//# sourceMappingURL=baseViewModel.js.map

@@ -23,3 +23,4 @@ var CatalystSearch;
         Models.Person = Person;
     })(Models = CatalystSearch.Models || (CatalystSearch.Models = {}));
 })(CatalystSearch || (CatalystSearch = {}));
+//# sourceMappingURL=person.js.map

@@ -25,7 +25,7 @@ namespace CatalystSearch.Service.Entities
         [Required, StringLength(255)]
         public string City { get; set; }
 
-        [Display(Name="State") Required, StringLength(2)]
+        [Display(Name="State"), Required, StringLength(2)]
         [RegularExpression(@"^(AK|AL|AR|AZ|CA|CO|CT|DC|DE|FL|GA|HI|IA|ID|IL|IN|KS|KY|LA|MA|MD|ME|MI|MN|MO|MS|MT|NB|NC|ND|NH|NJ|NM|NV|NY|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VA|VT|WA|WI|WV|WY)$/i", ErrorMessage = "Invalid State code. Please provide 2-character State code only.")]
         public string StateCd { get; set; }
         [Required, StringLength(10), RegularExpression(@"^\d{5}(?:[-\s]\d{4})?$", ErrorMessage = "Zipcode is not valid. Please enter a valid US zipcode.")]
