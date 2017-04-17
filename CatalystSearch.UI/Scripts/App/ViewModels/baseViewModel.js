@@ -34,9 +34,11 @@ var CatalystSearch;
                     timeOut: 30000
                 });
             };
+            BaseViewModel.prototype.isNumber = function (n) {
+                return !isNaN(parseFloat(n)) && isFinite(n);
+            };
             return BaseViewModel;
         }());
         ViewModels.BaseViewModel = BaseViewModel;
     })(ViewModels = CatalystSearch.ViewModels || (CatalystSearch.ViewModels = {}));
 })(CatalystSearch || (CatalystSearch = {}));
-//# sourceMappingURL=baseViewModel.js.map

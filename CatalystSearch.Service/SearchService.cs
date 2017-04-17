@@ -42,7 +42,11 @@ namespace CatalystSearch.Service
                                   Zipcode = person.Zipcode,
                                   Id = person.Id,
                                   Interests = person.Interests,
-                                  Base64Picture = person.Base64Picture
+                                  Base64Picture = person.Base64Picture,
+
+                                  //If we use byte[] for image then convert it to Base64string 
+                                  //Picture = person.Picture,
+                                  //Base64Picture = person.Picture != null ? string.Concat("data:image/jpeg;base64,", Convert.ToBase64String(person.Picture)) : ""
                               };
 
                 return results.ToList();
@@ -63,11 +67,10 @@ namespace CatalystSearch.Service
             try
             {
                 Person person = new Person();
-                var config = new AutoMapper.Configuration.MapperConfigurationExpression();
-                config.CreateMap<PersonResultEntity, Person>();
-                Mapper.Initialize(config);
-
-                Mapper.Map<PersonResultEntity, Person>(personEntity, person);
+                Mapper.Map<PersonResultEntity, Person>(personEntity, person); //Create Model Entity from the UI representation entity 
+                
+                //If we use byte[] for image 
+                //person.Picture = Convert.FromBase64String(personEntity.Base64Picture.Replace("data:image/jpeg;base64,", String.Empty));
 
                 this.SearchRepository.SavePerson(person);
             }

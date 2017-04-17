@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CatalystSearch.Data.Repositories;
 using System.Configuration;
 using System.IO;
+using CatalystSearch.Data.Models;
 
 namespace CatalystSearch.Test
 {
@@ -24,6 +25,29 @@ namespace CatalystSearch.Test
         {
             var searchRepository = new SearchRepository(new Data.Models.SearchContext());
             var people = searchRepository.GetPeople("tony");
+
+            Assert.IsNotNull(people);
+            Assert.IsTrue(people.Count() > 0);
+        }
+
+        [TestMethod]
+        public void SavePersonTest()
+        {
+            var searchRepository = new SearchRepository(new Data.Models.SearchContext());
+            var person = new Person();
+            person.FirstName = "Paul";
+            person.LastName = "Gimmell";
+            person.Age = 34;
+            person.Street = "Main st";
+            person.City = "Rocklin";
+            person.StateCd = "CA";
+            person.Zipcode = "95747";
+            person.Base64Picture = "";
+            
+            searchRepository.SavePerson(person);
+
+            //Get the person to see if it was saved
+            var people = searchRepository.GetPeople(person.FirstName); 
 
             Assert.IsNotNull(people);
             Assert.IsTrue(people.Count() > 0);

@@ -9,7 +9,7 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <ul class="nav nav-condensed nav-pills">
-            <li role="presentation"><a class="btn-xs btn-primary" href="@Url.Action("AddPerson","Home")"><i class="glyphicon glyphicon-plus"></i> Add New User</a></li>
+            <li role="presentation"><button class="btn-xs btn-primary" data-bind="click: addPerson"><i class="glyphicon glyphicon-plus"></i> Add New User</button></li>
         </ul>
     </div>
 </div>
@@ -17,14 +17,15 @@
 <div class="form-horizontal">
     <div class="form-group">
 
-        <div class="col-md-8" data-bind="css: { 'has-error': !isSearchInputValid() }">
-            <input type="text" id="name" class="form-control" placeholder="Enter the partial name (at least 2 characters) to search for..." data-bind="textInput: $root.searchText" />
+        <div class="col-md-7" data-bind="css: { 'has-error': !isSearchInputValid() }">
+            <input type="text" id="name" class="form-control" placeholder="Enter the partial name (at least 2 characters) to search for... for eg try: tony" data-bind="textInput: $root.searchText" />
             <div class="text-danger" style="display:none;" data-bind="text: invalidSearchInputErrorMessage, visible: !isSearchInputValid()"></div>
             <div class="text-danger" style="display:none;" data-bind="text: minLengthSearchInputErrorMessage, visible: !isInputMinLengthValid()"></div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <button type="button" id="btnSearch" class="btn btn-primary" data-bind="click: getSearchResults"><i class="glyphicon glyphicon-search"></i> Search</button>
+            <button type="button" id="btnSearch" class="btn btn-danger" data-bind="click: getSearchResultsSlowly"><i class="glyphicon glyphicon-exclamation-sign"></i> Simulate Slow Search</button>
         </div>
     </div>
 </div>

@@ -36,7 +36,7 @@ namespace CatalystSearch.Data.Models
         [MaxLength(500)]
         public string Interests { get; set; }
 
-        public byte[] Picture { get; set; }
+        //public byte[] Picture { get; set; } //If we want to use byte[] for image 
 
         [Column(TypeName = "varchar(MAX)")]
         public string Base64Picture { get; set; }

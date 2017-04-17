@@ -40,5 +40,9 @@
                 timeOut: 30000
             });
         }
+
+        protected isNumber(n): boolean {
+            return !isNaN(parseFloat(n)) && isFinite(n);
+        }
     }
 }

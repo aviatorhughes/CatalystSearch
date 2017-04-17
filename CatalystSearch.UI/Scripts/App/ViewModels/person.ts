@@ -3,6 +3,9 @@
     export class Person extends BaseViewModel {
         person: KnockoutObservable<Models.Person> = ko.observable(new Models.Person());
 
+        isFormPostValid: KnockoutObservable<boolean> = ko.observable(true);
+        validationErrors: KnockoutObservable<string> = ko.observable('');
+
         isFirstNameValid: KnockoutObservable<boolean> = ko.observable(true);
         errMsgFirstName: KnockoutObservable<string> = ko.observable('First Name is required.');
         isLastNameValid: KnockoutObservable<boolean> = ko.observable(true);
@@ -16,21 +19,16 @@
         isStateValid: KnockoutObservable<boolean> = ko.observable(true);
         errMsgState: KnockoutObservable<string> = ko.observable('State is required.');
         isStateLengthValid: KnockoutObservable<boolean> = ko.observable(true);
-        errMsgStateLength: KnockoutObservable<string> = ko.observable('State should be 2-character State code only.');
+        errMsgStateLength: KnockoutObservable<string> = ko.observable('Invalid State code. Please provide 2-character State code only.');
         isZipcodeValid: KnockoutObservable<boolean> = ko.observable(true);
         errMsgZipcode: KnockoutObservable<string> = ko.observable('Zipcode is required.');
-        isPhotoValid: KnockoutObservable<boolean> = ko.observable(true);
-        errMsgPhoto: KnockoutObservable<string> = ko.observable('Photo is required. Only JPEG pictures are allowed.');
+        isZipcodeFormatValid: KnockoutObservable<boolean> = ko.observable(true);
+        errMsgZipcodeFormat: KnockoutObservable<string> = ko.observable('Zipcode is not valid. Please enter a valid US zipcode.');
         isPhotoBig: KnockoutObservable<boolean> = ko.observable(true);
         errMsgPhotoBig: KnockoutObservable<string> = ko.observable('Photo size not allowed! Please upload a smaller size file.');
 
         constructor() {
             super();
-
-            //this.person().base64Picture.subscribe((base64String) => {
-            //    this.base64ToArrayBuffer(base64String);
-            //    console.log(this.person().photo());
-            //});
         }
 
         private base64ToArrayBuffer(base64): void {
@@ -48,29 +46,37 @@
         private savePerson(): void {
             //validate 
             if (this.validateSavePersonForm()) {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
+                $.blockUI();
                 //ajax call to save
                 $.ajax({
                     url: "/Home/AddPerson",
                     type: "POST",
-                    //dataType: 'json',
+                    dataType: 'json',
                     data: JSON.stringify({ person: ko.toJS(this.person()) }),
                     contentType: "application/json; charset=utf-8",
-                    success: (data, status, xhr) => {
-                        this.showSuccessfulSaveMessage();
-                        //take the user back to search page
-                        setTimeout(() => {
-                            location.href = '/Home/Index';
-                        }, 500);
+                    success: (response) => {
+                        if (!response.success) {
+                            //Model validation errors on form post 
+                            this.isFormPostValid(false);
+                            this.validationErrors(response.responseText.replace(/\n/g, "<br>").replace(/[ ]/g, "&nbsp;"));
+                        }
+                        else {
+                            //success 
+                            this.showSuccessfulSaveMessage();
+                            //take the user back to search page
+                            setTimeout(() => {
+                                location.href = '/Home/Index';
+                            }, 500);
+                        }
                     },
                     error: (response) => {
+                        //something went wrong
                         this.showAjaxCallSaveErrorMessage(response);
                     },
                     complete: (data) => {
+                        setTimeout(() => {
+                            $.unblockUI();
+                        }, 200);
                     }
                 });
             }
@@ -83,17 +89,19 @@
             this.isStreetValid(true);
             this.isCityValid(true);
             this.isStateValid(true); this.isStateLengthValid(true);
-            this.isZipcodeValid(true);
-            this.isPhotoBig(true); this.isPhotoValid(true);
+            this.isZipcodeValid(true); this.isZipcodeFormatValid(true);
+            this.isPhotoBig(true);
 
-            //interests is the only optional field. Rest all are required
+            //interests && photo are the optional fields. Rest all are required
             if (!(this.person().firstName().trim().length > 0)) {
                 this.isFirstNameValid(false);
             }
             if (!(this.person().lastName().trim().length > 0)) {
                 this.isLastNameValid(false);
             }
-            if (isNaN(this.person().age()) || this.person().age() > 110) {
+
+            var ageNumericVal = this.person().age();
+            if (!(this.isNumber(ageNumericVal) && ageNumericVal > 0 && ageNumericVal <= 150 && ageNumericVal % 1 === 0)) {
                 this.isAgeValid(false);
             }
             if (!(this.person().street().trim().length > 0)) {
@@ -105,17 +113,20 @@
             if (!(this.person().stateCd().trim().length > 0)) {
                 this.isStateValid(false);
             }
-            if (this.person().stateCd().trim().length > 2) {
+            else if (! /^(AK|AL|AR|AZ|CA|CO|CT|DC|DE|FL|GA|HI|IA|ID|IL|IN|KS|KY|LA|MA|MD|ME|MI|MN|MO|MS|MT|NB|NC|ND|NH|NJ|NM|NV|NY|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VA|VT|WA|WI|WV|WY)$/i.test(this.person().stateCd().trim())) {
                 this.isStateLengthValid(false);
             }
+
             if (!(this.person().zipcode().trim().length > 0)) {
                 this.isZipcodeValid(false);
             }
-            if (this.person().base64Picture() == null || !(this.person().base64Picture().length > 0)) {
-                this.isPhotoValid(false);
+            else if (!/^\d{5}(?:[-\s]\d{4})?$/.test(this.person().zipcode().trim())) {
+                this.isZipcodeFormatValid(false);
             }
-            else {
-                //check if the image is too big! 
+
+            if (this.person().base64Picture() != null && this.person().base64Picture().length > 0) {
+
+                //check if the image is too big!
                 var img = new Image();
                 img.src = this.person().base64Picture();
                 img.onload = function () {
@@ -128,7 +139,7 @@
             }
 
             return (this.isFirstNameValid() && this.isLastNameValid() && this.isAgeValid() && this.isStreetValid() && this.isCityValid() &&
-                this.isStateValid() && this.isStateLengthValid() && this.isZipcodeValid() && this.isPhotoValid() && this.isPhotoBig());
+                this.isStateValid() && this.isStateLengthValid() && this.isZipcodeValid() && this.isZipcodeFormatValid() && this.isPhotoBig());
         }
     }
 

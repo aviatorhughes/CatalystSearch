@@ -24,6 +24,10 @@ textarea {
 }
 */
 
+.form-group.required .control-label:after {
+  content:"*";
+  color:red;
+}
 
 /* DataTable styles */
 .dataTableContainer{

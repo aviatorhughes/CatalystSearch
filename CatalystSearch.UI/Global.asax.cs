@@ -1,4 +1,5 @@
-﻿using CatalystSearch.UI.App_Start;
+﻿using CatalystSearch.Service;
+using CatalystSearch.UI.App_Start;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,8 @@ namespace CatalystSearch.UI
 
             //Register the implementation class and DI
             SimpleInjectorInitializer.Initialize();
+
+            AutoMapperServiceConfiguration.Configure();
         }
     }
 }

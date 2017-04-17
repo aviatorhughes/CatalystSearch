@@ -19,6 +19,7 @@ var CatalystSearch;
                 _this.searchText = ko.observable('');
                 _this.searchStarted = ko.observable(false);
                 _this.searchResults = ko.observableArray([]);
+                _this.isSlowSearch = ko.observable(false);
                 _this.isSearchInputValid = ko.observable(true);
                 _this.invalidSearchInputErrorMessage = ko.observable('Invalid search input. Please use alpha-numeric only.');
                 _this.isInputMinLengthValid = ko.observable(true);
@@ -36,12 +37,18 @@ var CatalystSearch;
                 return _this;
             }
             //private methods
+            Search.prototype.addPerson = function () {
+                location.href = "/Home/AddPerson";
+            };
+            //Get search results 
             Search.prototype.getSearchResults = function () {
                 var _this = this;
                 this.validateSearchInput(this.searchText());
                 //If input is valid 
                 if (this.isInputMinLengthValid() && this.isSearchInputValid()) {
-                    $.blockUI();
+                    if (!this.isSlowSearch()) {
+                        $.blockUI();
+                    }
                     this.searchStarted(true);
                     this.searchResults.removeAll();
                     $.ajax({
@@ -66,11 +73,28 @@ var CatalystSearch;
                             _this.showAjaxCallLoadErrorMessage(response);
                         },
                         complete: function (data) {
+                            _this.isSlowSearch(false);
                             setTimeout(function () {
                                 $.unblockUI();
                             }, 200);
                         }
                     });
+                }
+                else {
+                    $.unblockUI();
+                }
+            };
+            //Simulate slow search 
+            Search.prototype.getSearchResultsSlowly = function () {
+                var _this = this;
+                this.validateSearchInput(this.searchText());
+                //If input is valid 
+                if (this.isInputMinLengthValid() && this.isSearchInputValid()) {
+                    this.isSlowSearch(true);
+                    $.blockUI();
+                    setTimeout(function () {
+                        _this.getSearchResults();
+                    }, 5000);
                 }
             };
             //validate search input
@@ -102,4 +126,3 @@ var CatalystSearch;
         ViewModels.SearchConfig = SearchConfig;
     })(ViewModels = CatalystSearch.ViewModels || (CatalystSearch.ViewModels = {}));
 })(CatalystSearch || (CatalystSearch = {}));
-//# sourceMappingURL=search.js.map

@@ -17,6 +17,8 @@ var CatalystSearch;
             function Person() {
                 var _this = _super.call(this) || this;
                 _this.person = ko.observable(new CatalystSearch.Models.Person());
+                _this.isFormPostValid = ko.observable(true);
+                _this.validationErrors = ko.observable('');
                 _this.isFirstNameValid = ko.observable(true);
                 _this.errMsgFirstName = ko.observable('First Name is required.');
                 _this.isLastNameValid = ko.observable(true);
@@ -30,18 +32,14 @@ var CatalystSearch;
                 _this.isStateValid = ko.observable(true);
                 _this.errMsgState = ko.observable('State is required.');
                 _this.isStateLengthValid = ko.observable(true);
-                _this.errMsgStateLength = ko.observable('State should be 2-character State code only.');
+                _this.errMsgStateLength = ko.observable('Invalid State code. Please provide 2-character State code only.');
                 _this.isZipcodeValid = ko.observable(true);
                 _this.errMsgZipcode = ko.observable('Zipcode is required.');
-                _this.isPhotoValid = ko.observable(true);
-                _this.errMsgPhoto = ko.observable('Photo is required. Only JPEG pictures are allowed.');
+                _this.isZipcodeFormatValid = ko.observable(true);
+                _this.errMsgZipcodeFormat = ko.observable('Zipcode is not valid. Please enter a valid US zipcode.');
                 _this.isPhotoBig = ko.observable(true);
                 _this.errMsgPhotoBig = ko.observable('Photo size not allowed! Please upload a smaller size file.');
                 return _this;
-                //this.person().base64Picture.subscribe((base64String) => {
-                //    this.base64ToArrayBuffer(base64String);
-                //    console.log(this.person().photo());
-                //});
             }
             Person.prototype.base64ToArrayBuffer = function (base64) {
                 var binary_string = window.atob(base64);
@@ -57,29 +55,37 @@ var CatalystSearch;
                 var _this = this;
                 //validate 
                 if (this.validateSavePersonForm()) {
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
+                    $.blockUI();
                     //ajax call to save
                     $.ajax({
                         url: "/Home/AddPerson",
                         type: "POST",
-                        //dataType: 'json',
+                        dataType: 'json',
                         data: JSON.stringify({ person: ko.toJS(this.person()) }),
                         contentType: "application/json; charset=utf-8",
-                        success: function (data, status, xhr) {
-                            _this.showSuccessfulSaveMessage();
-                            //take the user back to search page
-                            setTimeout(function () {
-                                location.href = '/Home/Index';
-                            }, 500);
+                        success: function (response) {
+                            if (!response.success) {
+                                //Model validation errors on form post 
+                                _this.isFormPostValid(false);
+                                _this.validationErrors(response.responseText.replace(/\n/g, "<br>").replace(/[ ]/g, "&nbsp;"));
+                            }
+                            else {
+                                //success 
+                                _this.showSuccessfulSaveMessage();
+                                //take the user back to search page
+                                setTimeout(function () {
+                                    location.href = '/Home/Index';
+                                }, 500);
+                            }
                         },
                         error: function (response) {
+                            //something went wrong
                             _this.showAjaxCallSaveErrorMessage(response);
                         },
                         complete: function (data) {
+                            setTimeout(function () {
+                                $.unblockUI();
+                            }, 200);
                         }
                     });
                 }
@@ -93,16 +99,17 @@ var CatalystSearch;
                 this.isStateValid(true);
                 this.isStateLengthValid(true);
                 this.isZipcodeValid(true);
+                this.isZipcodeFormatValid(true);
                 this.isPhotoBig(true);
-                this.isPhotoValid(true);
-                //interests is the only optional field. Rest all are required
+                //interests && photo are the optional fields. Rest all are required
                 if (!(this.person().firstName().trim().length > 0)) {
                     this.isFirstNameValid(false);
                 }
                 if (!(this.person().lastName().trim().length > 0)) {
                     this.isLastNameValid(false);
                 }
-                if (isNaN(this.person().age()) || this.person().age() > 110) {
+                var ageNumericVal = this.person().age();
+                if (!(this.isNumber(ageNumericVal) && ageNumericVal > 0 && ageNumericVal <= 150 && ageNumericVal % 1 === 0)) {
                     this.isAgeValid(false);
                 }
                 if (!(this.person().street().trim().length > 0)) {
@@ -114,17 +121,17 @@ var CatalystSearch;
                 if (!(this.person().stateCd().trim().length > 0)) {
                     this.isStateValid(false);
                 }
-                if (this.person().stateCd().trim().length > 2) {
+                else if (!/^(AK|AL|AR|AZ|CA|CO|CT|DC|DE|FL|GA|HI|IA|ID|IL|IN|KS|KY|LA|MA|MD|ME|MI|MN|MO|MS|MT|NB|NC|ND|NH|NJ|NM|NV|NY|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VA|VT|WA|WI|WV|WY)$/i.test(this.person().stateCd().trim())) {
                     this.isStateLengthValid(false);
                 }
                 if (!(this.person().zipcode().trim().length > 0)) {
                     this.isZipcodeValid(false);
                 }
-                if (this.person().base64Picture() == null || !(this.person().base64Picture().length > 0)) {
-                    this.isPhotoValid(false);
+                else if (!/^\d{5}(?:[-\s]\d{4})?$/.test(this.person().zipcode().trim())) {
+                    this.isZipcodeFormatValid(false);
                 }
-                else {
-                    //check if the image is too big! 
+                if (this.person().base64Picture() != null && this.person().base64Picture().length > 0) {
+                    //check if the image is too big!
                     var img = new Image();
                     img.src = this.person().base64Picture();
                     img.onload = function () {
@@ -136,7 +143,7 @@ var CatalystSearch;
                     }
                 }
                 return (this.isFirstNameValid() && this.isLastNameValid() && this.isAgeValid() && this.isStreetValid() && this.isCityValid() &&
-                    this.isStateValid() && this.isStateLengthValid() && this.isZipcodeValid() && this.isPhotoValid() && this.isPhotoBig());
+                    this.isStateValid() && this.isStateLengthValid() && this.isZipcodeValid() && this.isZipcodeFormatValid() && this.isPhotoBig());
             };
             return Person;
         }(ViewModels.BaseViewModel));
@@ -153,4 +160,3 @@ var CatalystSearch;
         ViewModels.PersonConfig = PersonConfig;
     })(ViewModels = CatalystSearch.ViewModels || (CatalystSearch.ViewModels = {}));
 })(CatalystSearch || (CatalystSearch = {}));
-//# sourceMappingURL=person.js.map

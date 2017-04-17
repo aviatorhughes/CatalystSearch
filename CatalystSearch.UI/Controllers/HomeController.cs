@@ -25,14 +25,14 @@ namespace CatalystSearch.UI.Controllers
         [HttpPost]
         public JsonResult Search(string searchText)
         {
-            if(string.IsNullOrWhiteSpace(searchText))
+            if (string.IsNullOrWhiteSpace(searchText))
             {
                 throw new ArgumentNullException(searchText);
             }
 
             var jsonResult = this.SearchService.GetSearchResults(searchText).ToJson();
 
-            return Json(jsonResult.Objectify()); 
+            return Json(jsonResult.Objectify());
         }
 
         [HttpGet]
@@ -42,16 +42,25 @@ namespace CatalystSearch.UI.Controllers
         }
 
         [HttpPost]
-        public void AddPerson(PersonResultEntity person)
+        public ActionResult AddPerson(PersonResultEntity person)
         {
             //validate if any
 
             try
             {
-                //save
-                this.SearchService.SavePerson(person);
+                if (ModelState.IsValid)
+                {
+                    //save
+                    this.SearchService.SavePerson(person);
+                    return Json(new { success = true, responseText = "" });
+                }
+                else
+                {
+                    string modelErrorMessages = string.Join(Environment.NewLine, ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage));
+                    return Json(new { success = false, responseText = modelErrorMessages});
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
