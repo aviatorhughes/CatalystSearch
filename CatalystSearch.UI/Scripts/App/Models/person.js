@@ -5,17 +5,17 @@ var CatalystSearch;
         var Person = (function () {
             function Person() {
                 this.id = ko.observable(0);
-                this.firstName = ko.observable('');
-                this.lastName = ko.observable('');
+                this.firstName = ko.observable('').trimmed();
+                this.lastName = ko.observable('').trimmed();
                 this.name = ko.observable('');
                 this.age = ko.observable(0);
-                this.street = ko.observable('');
-                this.city = ko.observable('');
-                this.stateCd = ko.observable('');
-                this.zipcode = ko.observable('');
+                this.street = ko.observable('').trimmed();
+                this.city = ko.observable('').trimmed();
+                this.stateCd = ko.observable('').trimmed();
+                this.zipcode = ko.observable('').trimmed();
                 this.address = ko.observable('');
                 this.base64Picture = ko.observable('');
-                this.interests = ko.observable('');
+                this.interests = ko.observable('').trimmed();
                 this.picture = ko.observable();
             }
             return Person;

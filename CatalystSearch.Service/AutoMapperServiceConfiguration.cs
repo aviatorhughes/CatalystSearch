@@ -19,7 +19,7 @@ namespace CatalystSearch.Service
         private static void ConfigurePersonMapping()
         {
             var config = new AutoMapper.Configuration.MapperConfigurationExpression();
-            config.CreateMap<PersonResultEntity, Person>();
+            config.CreateMap<AddPersonEntity, Person>();
             Mapper.Initialize(config);
         }
     }

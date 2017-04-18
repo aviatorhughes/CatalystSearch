@@ -9,6 +9,7 @@ using CatalystSearch.Data.Repositories;
 using CatalystSearch.Data.Interfaces;
 using CatalystSearch.Data.Models;
 using AutoMapper;
+using CatalystSearch.Data;
 
 namespace CatalystSearch.Service
 {
@@ -57,7 +58,7 @@ namespace CatalystSearch.Service
             }
         }
 
-        public void SavePerson(PersonResultEntity personEntity)
+        public void SavePerson(AddPersonEntity personEntity)
         {
             if(personEntity == null)
             {
@@ -67,7 +68,8 @@ namespace CatalystSearch.Service
             try
             {
                 Person person = new Person();
-                Mapper.Map<PersonResultEntity, Person>(personEntity, person); //Create Model Entity from the UI representation entity 
+                personEntity.TrimStringProperties();
+                Mapper.Map<AddPersonEntity, Person>(personEntity, person); //Create Model Entity from the UI representation entity 
                 
                 //If we use byte[] for image 
                 //person.Picture = Convert.FromBase64String(personEntity.Base64Picture.Replace("data:image/jpeg;base64,", String.Empty));

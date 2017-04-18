@@ -1,8 +1,13 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var CatalystSearch;
 (function (CatalystSearch) {
     var ViewModels;
@@ -36,15 +41,6 @@ var CatalystSearch;
                 _this.errMsgPhotoBig = ko.observable('Photo size not allowed! Please upload a smaller size file.');
                 return _this;
             }
-            Person.prototype.base64ToArrayBuffer = function (base64) {
-                var binary_string = window.atob(base64);
-                var len = binary_string.length;
-                var bytes = new Uint8Array(len);
-                for (var i = 0; i < len; i++) {
-                    bytes[i] = binary_string.charCodeAt(i);
-                }
-                this.person().picture(bytes.buffer);
-            };
             //private methods
             Person.prototype.savePerson = function () {
                 var _this = this;
@@ -70,7 +66,7 @@ var CatalystSearch;
                                 //take the user back to search page
                                 setTimeout(function () {
                                     location.href = '/Home/Index';
-                                }, 500);
+                                }, 600);
                             }
                         },
                         error: function (response) {
@@ -85,6 +81,7 @@ var CatalystSearch;
                     });
                 }
             };
+            //Explicity validation to have more control on each field and different types of validation and corresponding error message. 
             Person.prototype.validateSavePersonForm = function () {
                 this.isFirstNameValid(true);
                 this.isLastNameValid(true);

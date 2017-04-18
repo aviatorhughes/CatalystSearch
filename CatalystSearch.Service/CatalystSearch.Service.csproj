@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoMapperServiceConfiguration.cs" />
+    <Compile Include="Entities\AddPersonEntity.cs" />
     <Compile Include="Entities\PersonResultEntity.cs" />
     <Compile Include="Interfaces\ISearchService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

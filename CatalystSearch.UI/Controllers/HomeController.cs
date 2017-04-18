@@ -42,9 +42,9 @@ namespace CatalystSearch.UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddPerson(PersonResultEntity person)
+        public ActionResult AddPerson(AddPersonEntity person)
         {
-            //validate if any
+            //Do any custom validations needed
 
             try
             {

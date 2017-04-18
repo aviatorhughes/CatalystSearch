@@ -28,7 +28,7 @@ namespace CatalystSearch.Data.Repositories
         public IEnumerable<Person> GetPeople(string name)
         {
             //name can be part of first name or last name. 
-            var results = SearchContext.People.Where(p => p.FirstName.ToLower().Contains(name.ToLower()) || p.LastName.ToLower().Contains(name.ToLower()));
+            var results = SearchContext.People.Where(p => p.FirstName.ToLower().Contains(name.ToLower()) || p.LastName.ToLower().Contains(name.ToLower()));//we can do a call to stored proc if the data is huge
 
             return results; 
         }

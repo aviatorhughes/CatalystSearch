@@ -31,17 +31,6 @@
             super();
         }
 
-        private base64ToArrayBuffer(base64): void {
-
-            var binary_string = window.atob(base64);
-            var len = binary_string.length;
-            var bytes = new Uint8Array(len);
-            for (var i = 0; i < len; i++) {
-                bytes[i] = binary_string.charCodeAt(i);
-            }
-            this.person().picture(bytes.buffer);
-        }
-
         //private methods
         private savePerson(): void {
             //validate 
@@ -66,7 +55,7 @@
                             //take the user back to search page
                             setTimeout(() => {
                                 location.href = '/Home/Index';
-                            }, 500);
+                            }, 600);
                         }
                     },
                     error: (response) => {
@@ -82,6 +71,7 @@
             }
         }
 
+        //Explicity validation to have more control on each field and different types of validation and corresponding error message. 
         private validateSavePersonForm(): boolean {
             this.isFirstNameValid(true);
             this.isLastNameValid(true);
