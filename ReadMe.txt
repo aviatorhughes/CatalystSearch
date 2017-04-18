@@ -6,6 +6,7 @@ Application built using Visual Studio Professional 2015 Update 3,
 
 with .net framework 4.5, Knockout js, TypeScript, sql database in mdf file in the App_Data folder of the CatalystSearch.UI project. 
 
+Tested on Chrome browser only. 
 
 Building info:
 
