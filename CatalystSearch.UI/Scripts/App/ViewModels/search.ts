@@ -51,10 +51,10 @@
                     data: JSON.stringify({ searchText: this.searchText() }),
                     success: (result) => {
                         $.map(result, (data, ix) => {
-                            var jsonData = JSON.parse(data);
+                            console.log(data);
                             var tempArray = [];
 
-                            jsonData.forEach((item) => {
+                            data.forEach((item) => {
                                 var temp = ko.mapping.fromJS(item, {}, new CatalystSearch.Models.Person());
                                 tempArray.push(temp);
                             });

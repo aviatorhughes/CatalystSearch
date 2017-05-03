@@ -60,9 +60,9 @@ var CatalystSearch;
                         data: JSON.stringify({ searchText: this.searchText() }),
                         success: function (result) {
                             $.map(result, function (data, ix) {
-                                var jsonData = JSON.parse(data);
+                                console.log(data);
                                 var tempArray = [];
-                                jsonData.forEach(function (item) {
+                                data.forEach(function (item) {
                                     var temp = ko.mapping.fromJS(item, {}, new CatalystSearch.Models.Person());
                                     tempArray.push(temp);
                                 });

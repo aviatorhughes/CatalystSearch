@@ -30,9 +30,9 @@ namespace CatalystSearch.UI.Controllers
                 throw new ArgumentNullException(searchText);
             }
 
-            var jsonResult = this.SearchService.GetSearchResults(searchText).ToJson();
+            var result = this.SearchService.GetSearchResults(searchText);
 
-            return Json(jsonResult.Objectify());
+            return new JsonResult() { Data = result };
         }
 
         [HttpGet]
@@ -62,7 +62,7 @@ namespace CatalystSearch.UI.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
     }
