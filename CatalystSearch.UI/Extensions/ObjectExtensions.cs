@@ -23,10 +23,5 @@ namespace CatalystSearch.UI.Extensions
 
             return JsonConvert.SerializeObject(value, settings);
         }
-
-        public static object Objectify(this string json)
-        {
-            return new { d = json };
-        }
     }
 }

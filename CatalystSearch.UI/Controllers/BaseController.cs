@@ -1,4 +1,5 @@
 ﻿using CatalystSearch.Service.Interfaces;
+using CatalystSearch.UI.Custom;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,5 +22,16 @@ namespace CatalystSearch.UI.Controllers
 
         }
         #endregion
+
+        protected override JsonResult Json(object data, string contentType, System.Text.Encoding contentEncoding, JsonRequestBehavior behavior)
+        {
+            return new JsonNetResult
+            {
+                Data = data,
+                ContentType = contentType,
+                ContentEncoding = contentEncoding,
+                JsonRequestBehavior = behavior
+            };
+        }
     }
 }

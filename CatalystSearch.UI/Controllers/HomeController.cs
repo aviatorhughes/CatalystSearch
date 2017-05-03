@@ -30,9 +30,9 @@ namespace CatalystSearch.UI.Controllers
                 throw new ArgumentNullException(searchText);
             }
 
-            var result = this.SearchService.GetSearchResults(searchText);
-
-            return new JsonResult() { Data = result };
+            var results = this.SearchService.GetSearchResults(searchText);
+             
+            return Json(results);
         }
 
         [HttpGet]
@@ -57,7 +57,7 @@ namespace CatalystSearch.UI.Controllers
                 else
                 {
                     string modelErrorMessages = string.Join(Environment.NewLine, ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage));
-                    return Json(new { success = false, responseText = modelErrorMessages});
+                    return Json(new { success = false, responseText = modelErrorMessages });
                 }
             }
             catch (Exception ex)

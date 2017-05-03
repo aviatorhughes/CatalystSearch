@@ -59,15 +59,12 @@ var CatalystSearch;
                         contentType: "application/json; charset=utf-8",
                         data: JSON.stringify({ searchText: this.searchText() }),
                         success: function (result) {
+                            var tempArray = [];
                             $.map(result, function (data, ix) {
-                                console.log(data);
-                                var tempArray = [];
-                                data.forEach(function (item) {
-                                    var temp = ko.mapping.fromJS(item, {}, new CatalystSearch.Models.Person());
-                                    tempArray.push(temp);
-                                });
-                                _this.searchResults.pushAll(tempArray);
+                                var temp = ko.mapping.fromJS(data, {}, new CatalystSearch.Models.Person());
+                                tempArray.push(temp);
                             });
+                            _this.searchResults.pushAll(tempArray);
                         },
                         error: function (response) {
                             _this.showAjaxCallLoadErrorMessage(response);

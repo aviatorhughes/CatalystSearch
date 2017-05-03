@@ -50,17 +50,14 @@
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify({ searchText: this.searchText() }),
                     success: (result) => {
+                        var tempArray = [];
+
                         $.map(result, (data, ix) => {
-                            console.log(data);
-                            var tempArray = [];
-
-                            data.forEach((item) => {
-                                var temp = ko.mapping.fromJS(item, {}, new CatalystSearch.Models.Person());
-                                tempArray.push(temp);
-                            });
-
-                            this.searchResults.pushAll(tempArray);
+                            var temp = ko.mapping.fromJS(data, {}, new CatalystSearch.Models.Person());
+                            tempArray.push(temp);
                         });
+
+                        this.searchResults.pushAll(tempArray);
                     },
                     error: (response) => {
                         this.showAjaxCallLoadErrorMessage(response);
@@ -73,8 +70,7 @@
                     }
                 });
             }
-            else
-            {
+            else {
                 $.unblockUI();
             }
         }
